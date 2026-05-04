@@ -1,6 +1,0 @@
-When clicking on pattern type on the left, the sheet does not scrolls to that pattern type. Expectaion : When i click on the pattern type on the left the sheet should get automatically scrolled to that pattern type (that pattern type on the sheet should come at the top when scrolled automatically)
-After scolling or clicking on the pattern type on the left also glow the pattern type title on the sheet with glow on its contents
-You did a pretty good job solving the problem of subcategories of pattern problem, but when just looking at the sheet part it does not "looks" like the Array patterns type if the superior category. Please fix this according to you or give me 5 differnet creative/innovative formats to choose from when dealing with the subcategorical pattern types.
-Whenever I load this html file for the first time, for the subcategorical pattern type from the left which has the drop down buton, is droppped down from the beginning. Let the user click on the drop down to see the sub pattern categories.
-Give 5 different dark themed color formats for better readability (white on the sheet part feels too bright!)
-Increase the font and readability on the top right portion where number of problems and patterns is written. Keep it's position fix just increase it's readability.  
