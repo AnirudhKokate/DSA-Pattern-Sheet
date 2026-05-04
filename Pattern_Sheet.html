@@ -34,13 +34,14 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html, body { height: 100%; overflow: hidden; }
+
   html { font-size: 15px; }
 
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text-primary);
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
   }
@@ -73,12 +74,14 @@
   .topbar-divider { flex: 1; }
   .topbar-count {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--sidebar-muted);
+    font-size: 13px;
+    color: #a8a49d;
+    letter-spacing: 0.02em;
   }
   .topbar-count span {
-    color: #c8c4bc;
-    font-weight: 500;
+    color: #e8e4de;
+    font-weight: 600;
+    font-size: 14px;
   }
 
   /* ── Shuffle Button ── */
@@ -370,20 +373,40 @@
   /* ── Pattern section ── */
   .pattern-section {
     margin-bottom: 44px;
-    scroll-margin-top: 28px;
+    scroll-margin-top: 72px;
     border-radius: 8px;
     transition: background 0.1s;
   }
 
-  /* ── Glow animation ── */
-  @keyframes tableGlow {
-    0%   { box-shadow: none; border-color: var(--border); }
-    25%  { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 4px var(--pattern-border); border-color: var(--pattern-color); }
-    70%  { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 4px var(--pattern-border); border-color: var(--pattern-color); }
-    100% { box-shadow: none; border-color: var(--border); }
+  /* ── Unified section glow ── */
+  @keyframes sectionTagGlow {
+    0%          { color: var(--pattern-color); background: var(--pattern-bg); box-shadow: none; }
+    20%, 70%    { color: #fff; background: var(--pattern-color);
+                  box-shadow: 0 0 0 3px var(--pattern-border), 0 0 22px 4px var(--pattern-border); }
+    100%        { color: var(--pattern-color); background: var(--pattern-bg); box-shadow: none; }
   }
-  .problem-table.glowing {
-    animation: tableGlow 2s ease;
+  @keyframes sectionRowGlow {
+    0%          { color: var(--text-primary); text-shadow: none; }
+    20%, 70%    { color: var(--pattern-color);
+                  text-shadow: 0 0 12px var(--pattern-border), 0 0 4px var(--pattern-border); }
+    100%        { color: var(--text-primary); text-shadow: none; }
+  }
+  @keyframes sectionTableGlow {
+    0%          { box-shadow: none; border-color: var(--border); }
+    20%, 70%    { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 6px var(--pattern-border);
+                  border-color: var(--pattern-color); }
+    100%        { box-shadow: none; border-color: var(--border); }
+  }
+
+  /* All three target together, same duration, same keyframe shape */
+  .pattern-section.section-glowing .section-tag {
+    animation: sectionTagGlow 2.2s ease;
+  }
+  .pattern-section.section-glowing .row-title {
+    animation: sectionRowGlow 2.2s ease;
+  }
+  .pattern-section.section-glowing .problem-table {
+    animation: sectionTableGlow 2.2s ease;
   }
 
   .section-header {
@@ -865,29 +888,24 @@ function buildSection(p) {
 /* ═══════════════════════════════════════════
    SCROLL & GLOW  (Change #1)
 ═══════════════════════════════════════════ */
-function scrollToSection(sectionId, glowAll) {
-  const mainEl = document.getElementById('main-content');
+function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
-  if (!section || !mainEl) return;
+  if (!section) return;
 
-  // Calculate position relative to scrollable main
-  const mainRect    = mainEl.getBoundingClientRect();
-  const sectionRect = section.getBoundingClientRect();
-  const target      = mainEl.scrollTop + (sectionRect.top - mainRect.top) - 28;
+  // scrollIntoView auto-finds the real scroll container — works regardless of layout
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  mainEl.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+  // Glow immediately on click — no delay
+  const targets = section.matches('.pattern-section')
+    ? [section]
+    : [...section.querySelectorAll('.pattern-section')];
 
-  // Glow all problem tables in this section (or group)
-  const tables = section.querySelectorAll('.problem-table');
-  setTimeout(() => {
-    tables.forEach(tbl => {
-      tbl.classList.remove('glowing');
-      // Force reflow so animation restarts
-      void tbl.offsetWidth;
-      tbl.classList.add('glowing');
-      setTimeout(() => tbl.classList.remove('glowing'), 2100);
-    });
-  }, 350);
+  targets.forEach(sec => {
+    sec.classList.remove('section-glowing');
+    void sec.offsetWidth; // force reflow so animation restarts cleanly
+    sec.classList.add('section-glowing');
+    setTimeout(() => sec.classList.remove('section-glowing'), 2200);
+  });
 }
 
 /* ═══════════════════════════════════════════
@@ -914,7 +932,7 @@ function renderAll(data) {
       // ── GROUP: sidebar ──
       const groupTotalProbs = p.children.reduce((s, c) => s + c.problems.length, 0);
       const navGroup = document.createElement('div');
-      navGroup.className = 'nav-group'; // starts expanded
+      navGroup.className = 'nav-group collapsed'; // starts collapsed
       navGroup.dataset.groupId = p.id;
       navGroup.innerHTML = `
         <div class="nav-group-header" style="--pattern-color:${p.color}" onclick="handleGroupHeaderClick('${p.id}', this.parentElement)">
@@ -938,6 +956,12 @@ function renderAll(data) {
           <span class="nav-count">${child.problems.length}</span>`;
         childNav.addEventListener('click', () => {
           setActiveNav(childNav);
+          // Expand the group in sidebar and main if collapsed
+          if (navGroup.classList.contains('collapsed')) {
+            navGroup.classList.remove('collapsed');
+            const groupEl = document.getElementById(p.id);
+            if (groupEl) groupEl.classList.remove('collapsed');
+          }
           scrollToSection(child.id);
           if (window.innerWidth <= 768) toggleMenu(false);
         });
@@ -947,7 +971,7 @@ function renderAll(data) {
 
       // ── GROUP: main content ──
       const groupEl = document.createElement('div');
-      groupEl.className = 'pattern-group';
+      groupEl.className = 'pattern-group collapsed';
       groupEl.id = p.id;
       groupEl.style.setProperty('--pattern-color', p.color);
       groupEl.style.setProperty('--pattern-bg', p.bg);
