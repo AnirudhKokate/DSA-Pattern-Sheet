@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Pattern Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --surface: #ffffff;
+    --border: #d4d0c7;
+    --border-strong: #b8b4aa;
+    --text-primary: #1a1916;
+    --text-secondary: #6b6760;
+    --text-muted: #a09c95;
+    --sidebar-bg: #1e1d1b;
+    --sidebar-text: #c8c4bc;
+    --sidebar-muted: #6b6760;
+    --sidebar-hover: #2a2926;
+    --sidebar-active: #333129;
+
+    --tp: #6c5fc7; --tp-bg: #f0effe; --tp-border: #d8d4f8;
+    --hm: #1a8a6b; --hm-bg: #e8f7f2; --hm-border: #b8e8d8;
+    --sw: #c47d1a; --sw-bg: #fdf3e3; --sw-border: #f5d89a;
+    --ps: #b84c28; --ps-bg: #fdf0eb; --ps-border: #f5c4ad;
+    --mv: #a83860; --mv-bg: #fceef4; --mv-border: #f2bdd3;
+    --bm: #2264b8; --bm-bg: #eaf2fd; --bm-border: #b5d4f5;
+    --ma: #437a1e; --ma-bg: #edf6e2; --ma-border: #bcdfa0;
+    --bs: #5a5855; --bs-bg: #f3f2ef; --bs-border: #d8d5cc;
+    --ap: #7c5c1e; --ap-bg: #fdf6e7; --ap-border: #f0d49a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 15px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    height: 52px;
+    background: var(--sidebar-bg);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    border-bottom: 1px solid #2e2d2a;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+  .topbar-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 300;
+    color: #f0ede8;
+    letter-spacing: 0.01em;
+  }
+  .topbar-title em {
+    font-style: italic;
+    color: #9d8fef;
+  }
+  .topbar-divider { flex: 1; }
+  .topbar-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--sidebar-muted);
+  }
+  .topbar-count span {
+    color: #c8c4bc;
+    font-weight: 500;
+  }
+
+  /* ── Shuffle Button ── */
+  .shuffle-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #252422;
+    border: 1px solid #3a3835;
+    border-radius: 6px;
+    color: #c8c4bc;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 5px 13px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    flex-shrink: 0;
+    letter-spacing: 0.01em;
+  }
+  .shuffle-btn:hover {
+    background: #333129;
+    border-color: #555250;
+    color: #f0ede8;
+  }
+  .shuffle-btn:active { transform: scale(0.97); }
+  .shuffle-btn svg { flex-shrink: 0; }
+
+  /* ── Shuffle Toast ── */
+  .shuffle-toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: #252422;
+    border: 1px solid #3a3835;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    z-index: 500;
+    transform: translateY(12px) scale(0.97);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.2s ease;
+    min-width: 290px;
+    max-width: 380px;
+  }
+  .shuffle-toast.visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .toast-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sidebar-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .toast-dice { font-size: 13px; }
+  .toast-title {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: #f0ede8;
+    line-height: 1.35;
+    margin-top: 2px;
+  }
+  .toast-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .toast-pattern-pill {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .toast-lc {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sidebar-muted);
+  }
+  .toast-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .toast-solve-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    background: #9d8fef;
+    color: white;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .toast-solve-btn:hover { background: #8b7de0; }
+  .toast-jump-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #3a3835;
+    background: none;
+    color: var(--sidebar-text);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .toast-jump-btn:hover { background: #2a2926; }
+  .toast-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    color: var(--sidebar-muted);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: color 0.15s;
+  }
+  .toast-close:hover { color: #c8c4bc; }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 224px;
+    flex-shrink: 0;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #2e2d2a;
+    position: sticky;
+    top: 52px;
+    height: calc(100vh - 52px);
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: #3a3835; border-radius: 2px; }
+
+  .sidebar-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sidebar-muted);
+    padding: 0 20px 10px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--sidebar-hover); }
+  .nav-item.active {
+    background: var(--sidebar-active);
+    border-left-color: var(--pattern-color, #9d8fef);
+  }
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--pattern-color, #888);
+  }
+  .nav-label {
+    font-size: 13px;
+    color: var(--sidebar-text);
+    flex: 1;
+    font-weight: 400;
+  }
+  .nav-item.active .nav-label { color: #f0ede8; font-weight: 500; }
+  .nav-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sidebar-muted);
+    background: #2a2926;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+  .nav-item.active .nav-count { background: #3a3835; color: #a09c95; }
+
+  /* ── Sidebar Group ── */
+  .nav-group {}
+  .nav-group-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 2px solid transparent;
+    user-select: none;
+  }
+  .nav-group-header:hover { background: var(--sidebar-hover); }
+  .nav-group-header.active {
+    background: var(--sidebar-active);
+    border-left-color: var(--ap);
+  }
+  .nav-group-icon {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    background: var(--pattern-color, var(--ap));
+  }
+  .nav-group-label {
+    font-size: 13px;
+    color: var(--sidebar-text);
+    flex: 1;
+    font-weight: 400;
+  }
+  .nav-group-header.active .nav-group-label { color: #f0ede8; font-weight: 500; }
+  .nav-group-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--sidebar-muted);
+    transition: transform 0.22s;
+    flex-shrink: 0;
+  }
+  .nav-group-total {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sidebar-muted);
+    background: #2a2926;
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+  .nav-group.collapsed .nav-group-arrow { transform: rotate(-90deg); }
+  .nav-group-children {
+    overflow: hidden;
+    max-height: 300px;
+    transition: max-height 0.25s ease, opacity 0.2s;
+    opacity: 1;
+  }
+  .nav-group.collapsed .nav-group-children {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nav-item.child {
+    padding-left: 36px;
+    border-left: 2px solid transparent;
+  }
+  .nav-item.child .nav-dot { width: 5px; height: 5px; }
+
+  /* ── Main content ── */
+  .main {
+    flex: 1;
+    min-width: 0;
+    padding: 32px 40px 60px;
+    overflow-y: auto;
+  }
+
+  /* ── Pattern section ── */
+  .pattern-section {
+    margin-bottom: 44px;
+    scroll-margin-top: 28px;
+    border-radius: 8px;
+    transition: background 0.1s;
+  }
+
+  /* ── Glow animation ── */
+  @keyframes tableGlow {
+    0%   { box-shadow: none; border-color: var(--border); }
+    25%  { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 4px var(--pattern-border); border-color: var(--pattern-color); }
+    70%  { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 4px var(--pattern-border); border-color: var(--pattern-color); }
+    100% { box-shadow: none; border-color: var(--border); }
+  }
+  .problem-table.glowing {
+    animation: tableGlow 2s ease;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1.5px solid var(--pattern-border, var(--border));
+  }
+  .section-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pattern-color);
+    background: var(--pattern-bg);
+    border: 1px solid var(--pattern-border);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--text-primary);
+    flex: 1;
+  }
+  .section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Array Patterns group in main ── */
+  .pattern-group {
+    margin-bottom: 44px;
+  }
+  .pattern-group > .pattern-section {
+    margin-bottom: 0;
+  }
+  .group-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 13px;
+    border-bottom: 2px solid var(--pattern-border, var(--border));
+    cursor: pointer;
+    user-select: none;
+  }
+  .group-section-header:hover .group-section-title { color: var(--pattern-color); }
+  .group-section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--pattern-color);
+    background: var(--pattern-bg);
+    border: 1.5px solid var(--pattern-border);
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .group-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--text-primary);
+    flex: 1;
+    transition: color 0.15s;
+  }
+  .group-section-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--pattern-bg);
+    border: 1px solid var(--pattern-border);
+    padding: 2px 9px;
+    border-radius: 10px;
+  }
+  .group-toggle-arrow {
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+    transition: transform 0.22s;
+    flex-shrink: 0;
+  }
+  .pattern-group.collapsed .group-toggle-arrow { transform: rotate(-90deg); }
+  .group-children-sections {
+    padding-left: 22px;
+    border-left: 2px solid var(--pattern-border);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: hidden;
+    max-height: 2000px;
+    transition: max-height 0.3s ease, opacity 0.25s;
+    opacity: 1;
+  }
+  .pattern-group.collapsed .group-children-sections {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .group-children-sections .pattern-section {
+    margin-bottom: 0;
+  }
+
+  /* ── Problem table ── */
+  .problem-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+
+  .problem-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto auto;
+    align-items: center;
+    padding: 0 16px;
+    min-height: 46px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    transition: background 0.12s;
+  }
+  .problem-row:last-child { border-bottom: none; }
+  .problem-row:hover { background: #faf9f7; }
+  .problem-row.highlighted {
+    background: #fefdf7;
+    animation: rowHighlight 2s ease;
+  }
+  @keyframes rowHighlight {
+    0%, 100% { background: transparent; }
+    20%, 70% { background: #fefdf0; }
+  }
+
+  .row-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+    user-select: none;
+  }
+
+  .row-title {
+    font-size: 13.5px;
+    color: var(--text-primary);
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.12s;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .row-title:hover { color: var(--pattern-color); }
+  .row-title svg {
+    width: 13px;
+    height: 13px;
+    opacity: 0;
+    flex-shrink: 0;
+    transition: opacity 0.12s;
+    color: var(--pattern-color);
+  }
+  .problem-row:hover .row-title svg { opacity: 1; }
+
+  .row-lc {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--pattern-color);
+    min-width: 44px;
+    text-align: right;
+  }
+
+  .platform-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .badge-lc  { background: #fff8ee; color: #b85c00; border: 1px solid #fad9a0; }
+  .badge-gfg { background: #edfaf3; color: #1a7a4a; border: 1px solid #a8e8c4; }
+  .badge-cn  { background: #edf4ff; color: #1a52a8; border: 1px solid #a8c8f8; }
+
+  /* ── Search ── */
+  .search-wrap {
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .search-input {
+    width: 100%;
+    height: 42px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 14px 0 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: #9d8fef;
+    box-shadow: 0 0 0 3px rgba(157,143,239,0.12);
+  }
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  /* ── Empty state ── */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .sidebar {
+      display: none;
+      position: fixed;
+      top: 52px;
+      left: 0;
+      height: calc(100vh - 52px);
+      z-index: 90;
+      width: 240px;
+    }
+    .sidebar.open { display: block; }
+    .main { padding: 20px 18px 48px; }
+    .topbar { padding: 0 16px; }
+    .menu-btn { display: flex !important; }
+    .shuffle-btn span { display: none; }
+    .shuffle-toast { right: 16px; bottom: 16px; left: 16px; min-width: unset; }
+  }
+  @media (min-width: 769px) {
+    .menu-btn { display: none !important; }
+  }
+
+  .menu-btn {
+    background: none;
+    border: 1px solid #3a3835;
+    border-radius: 6px;
+    color: var(--sidebar-text);
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="2" y1="5" x2="14" y2="5"/><line x1="2" y1="8" x2="14" y2="8"/><line x1="2" y1="11" x2="14" y2="11"/>
+    </svg>
+  </button>
+  <span class="topbar-title">DSA <em>Pattern</em> Sheet</span>
+  <div class="topbar-divider"></div>
+  <!-- Shuffle Button -->
+  <button class="shuffle-btn" onclick="shuffleProblem()" title="Pick a random problem">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/>
+      <polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/>
+    </svg>
+    <span>Shuffle</span>
+  </button>
+  <span class="topbar-count" id="topbar-count"><span id="tc-problems">0</span> problems &middot; <span id="tc-patterns">0</span> patterns</span>
+</header>
+
+<!-- Shuffle Toast -->
+<div class="shuffle-toast" id="shuffle-toast" role="status">
+  <button class="toast-close" onclick="closeToast()" aria-label="Close">×</button>
+  <div class="toast-eyebrow"><span class="toast-dice">🎲</span> Random Pick</div>
+  <div class="toast-title" id="toast-title">—</div>
+  <div class="toast-meta">
+    <span class="toast-pattern-pill" id="toast-pill">—</span>
+    <span class="toast-lc" id="toast-lc"></span>
+  </div>
+  <div class="toast-actions">
+    <a class="toast-solve-btn" id="toast-solve" href="#" target="_blank" rel="noopener">
+      Solve it
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M5 2h5v5"/></svg>
+    </a>
+    <button class="toast-jump-btn" onclick="jumpToToastProblem()">Jump in sheet</button>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section-label">Patterns</div>
+    <div id="nav-list"></div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main" id="main-content">
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="7" cy="7" r="4.5"/><line x1="10.5" y1="10.5" x2="14" y2="14"/>
+      </svg>
+      <input class="search-input" id="search" type="text" placeholder="Search problems or patterns…" oninput="handleSearch()" autocomplete="off">
+    </div>
+    <div id="content"></div>
+  </main>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const patterns = [
+  {
+    id: 'basics',
+    name: 'Basics',
+    color: '#5a5855', bg: '#f3f2ef', border: '#d8d5cc',
+    problems: [
+      { title: 'Valid Triangle', lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/valid-triangle5248/1' },
+    ]
+  },
+  {
+    id: 'two-pointers',
+    name: 'Two Pointers',
+    color: '#6c5fc7', bg: '#f0effe', border: '#d8d4f8',
+    problems: [
+      { title: 'Remove Duplicates from Sorted Array', lc: 26,   platform: 'lc',  url: 'https://leetcode.com/problems/remove-duplicates-from-sorted-array/' },
+      { title: 'Rotate Array',                         lc: 189,  platform: 'lc',  url: 'https://leetcode.com/problems/rotate-array/' },
+      { title: 'Move Zeroes',                          lc: 283,  platform: 'lc',  url: 'https://leetcode.com/problems/move-zeroes/' },
+      { title: 'Union of Two Sorted Arrays',           lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1' },
+      { title: 'Sort Colors',                          lc: 75,   platform: 'lc',  url: 'https://leetcode.com/problems/sort-colors/' },
+    ]
+  },
+  {
+    id: 'hashmap',
+    name: 'Hashmap',
+    color: '#1a8a6b', bg: '#e8f7f2', border: '#b8e8d8',
+    problems: [
+      { title: 'Two Sum', lc: 1, platform: 'lc', url: 'https://leetcode.com/problems/two-sum/' },
+    ]
+  },
+  {
+    id: 'sliding-window',
+    name: 'Sliding Window',
+    color: '#c47d1a', bg: '#fdf3e3', border: '#f5d89a',
+    problems: [
+      { title: 'Longest Subarray with Sum K (arr[i] ≥ 0)', lc: null, platform: 'cn', url: 'https://www.naukri.com/code360/problems/longest-subarray-with-sum-k_6682399' },
+    ]
+  },
+  // ── Array Patterns group ──
+  {
+    id: 'array-patterns',
+    name: 'Array Patterns',
+    isGroup: true,
+    color: '#7c5c1e',
+    bg: '#fdf6e7',
+    border: '#f0d49a',
+    children: [
+      {
+        id: 'prefix-sum',
+        name: 'Prefix Sum',
+        color: '#b84c28', bg: '#fdf0eb', border: '#f5c4ad',
+        problems: [
+          { title: 'Longest Subarray with Sum K (integers)', lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1' },
+        ]
+      },
+      {
+        id: 'moores-voting',
+        name: "Moore's Voting",
+        color: '#a83860', bg: '#fceef4', border: '#f2bdd3',
+        problems: [
+          { title: 'Majority Element', lc: 169, platform: 'lc', url: 'https://leetcode.com/problems/majority-element/' },
+        ]
+      },
+    ]
+  },
+  {
+    id: 'math',
+    name: 'Math',
+    color: '#437a1e', bg: '#edf6e2', border: '#bcdfa0',
+    problems: [
+      { title: 'Missing Number', lc: 268, platform: 'lc', url: 'https://leetcode.com/problems/missing-number/' },
+    ]
+  },
+  {
+    id: 'bit-manipulation',
+    name: 'Bit Manipulation',
+    color: '#2264b8', bg: '#eaf2fd', border: '#b5d4f5',
+    problems: [
+      { title: 'Missing Number', lc: 268, platform: 'lc', url: 'https://leetcode.com/problems/missing-number/' },
+      { title: 'Single Number',  lc: 136, platform: 'lc', url: 'https://leetcode.com/problems/single-number/' },
+    ]
+  },
+];
+
+const platformLabel = { lc: 'LC', gfg: 'GFG', cn: 'CN' };
+const platformClass  = { lc: 'badge-lc', gfg: 'badge-gfg', cn: 'badge-cn' };
+
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+/** Flatten all problems across all patterns (including group children). */
+function getAllProblems() {
+  const all = [];
+  patterns.forEach(p => {
+    if (p.isGroup) {
+      p.children.forEach(child => {
+        child.problems.forEach(prob => {
+          all.push({ ...prob, patternId: child.id, patternName: child.name, patternColor: child.color, patternBg: child.bg, patternBorder: child.border });
+        });
+      });
+    } else {
+      p.problems.forEach(prob => {
+        all.push({ ...prob, patternId: p.id, patternName: p.name, patternColor: p.color, patternBg: p.bg, patternBorder: p.border });
+      });
+    }
+  });
+  return all;
+}
+
+function countProblems(data) {
+  return data.reduce((sum, p) => {
+    if (p.isGroup) return sum + p.children.reduce((s, c) => s + c.problems.length, 0);
+    return sum + p.problems.length;
+  }, 0);
+}
+
+function buildProblemRow(prob, index) {
+  return `
+    <div class="problem-row" data-prob-id="${prob.patternId || ''}-${index}">
+      <span class="row-num">${String(index + 1).padStart(2, '0')}</span>
+      <a class="row-title" href="${prob.url}" target="_blank" rel="noopener">
+        ${prob.title}
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 10L10 2M5 2h5v5"/>
+        </svg>
+      </a>
+      <span class="row-lc">${prob.lc ? '#' + prob.lc : ''}</span>
+      <span class="platform-badge ${platformClass[prob.platform]}">${platformLabel[prob.platform]}</span>
+    </div>`;
+}
+
+function buildSection(p) {
+  const section = document.createElement('section');
+  section.className = 'pattern-section';
+  section.id = p.id;
+  section.style.setProperty('--pattern-color', p.color);
+  section.style.setProperty('--pattern-bg', p.bg);
+  section.style.setProperty('--pattern-border', p.border);
+
+  const rows = p.problems.map((prob, i) => buildProblemRow(prob, i)).join('');
+  section.innerHTML = `
+    <div class="section-header">
+      <span class="section-tag">${p.name}</span>
+      <span class="section-count">${p.problems.length} problem${p.problems.length !== 1 ? 's' : ''}</span>
+    </div>
+    <div class="problem-table">${rows}</div>`;
+  return section;
+}
+
+/* ═══════════════════════════════════════════
+   SCROLL & GLOW  (Change #1)
+═══════════════════════════════════════════ */
+function scrollToSection(sectionId, glowAll) {
+  const mainEl = document.getElementById('main-content');
+  const section = document.getElementById(sectionId);
+  if (!section || !mainEl) return;
+
+  // Calculate position relative to scrollable main
+  const mainRect    = mainEl.getBoundingClientRect();
+  const sectionRect = section.getBoundingClientRect();
+  const target      = mainEl.scrollTop + (sectionRect.top - mainRect.top) - 28;
+
+  mainEl.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+
+  // Glow all problem tables in this section (or group)
+  const tables = section.querySelectorAll('.problem-table');
+  setTimeout(() => {
+    tables.forEach(tbl => {
+      tbl.classList.remove('glowing');
+      // Force reflow so animation restarts
+      void tbl.offsetWidth;
+      tbl.classList.add('glowing');
+      setTimeout(() => tbl.classList.remove('glowing'), 2100);
+    });
+  }, 350);
+}
+
+/* ═══════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════ */
+function renderAll(data) {
+  const navList = document.getElementById('nav-list');
+  const content = document.getElementById('content');
+  navList.innerHTML = '';
+  content.innerHTML = '';
+
+  const total    = countProblems(data);
+  const topLevel = data.length;
+  document.getElementById('tc-problems').textContent = total;
+  document.getElementById('tc-patterns').textContent = topLevel;
+
+  if (!data.length) {
+    content.innerHTML = '<div class="empty">No problems match your search.</div>';
+    return;
+  }
+
+  data.forEach((p, idx) => {
+    if (p.isGroup) {
+      // ── GROUP: sidebar ──
+      const groupTotalProbs = p.children.reduce((s, c) => s + c.problems.length, 0);
+      const navGroup = document.createElement('div');
+      navGroup.className = 'nav-group'; // starts expanded
+      navGroup.dataset.groupId = p.id;
+      navGroup.innerHTML = `
+        <div class="nav-group-header" style="--pattern-color:${p.color}" onclick="handleGroupHeaderClick('${p.id}', this.parentElement)">
+          <span class="nav-group-icon" style="background:${p.color}; border-radius:2px;"></span>
+          <span class="nav-group-label">${p.name}</span>
+          <svg class="nav-group-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 6 8 10 12 6"/>
+          </svg>
+          <span class="nav-group-total">${groupTotalProbs}</span>
+        </div>
+        <div class="nav-group-children"></div>`;
+
+      const childrenNav = navGroup.querySelector('.nav-group-children');
+      p.children.forEach((child, ci) => {
+        const childNav = document.createElement('div');
+        childNav.className = 'nav-item child' + (idx === 0 && ci === 0 ? ' active' : '');
+        childNav.style.setProperty('--pattern-color', child.color);
+        childNav.innerHTML = `
+          <span class="nav-dot" style="background:${child.color}"></span>
+          <span class="nav-label">${child.name}</span>
+          <span class="nav-count">${child.problems.length}</span>`;
+        childNav.addEventListener('click', () => {
+          setActiveNav(childNav);
+          scrollToSection(child.id);
+          if (window.innerWidth <= 768) toggleMenu(false);
+        });
+        childrenNav.appendChild(childNav);
+      });
+      navList.appendChild(navGroup);
+
+      // ── GROUP: main content ──
+      const groupEl = document.createElement('div');
+      groupEl.className = 'pattern-group';
+      groupEl.id = p.id;
+      groupEl.style.setProperty('--pattern-color', p.color);
+      groupEl.style.setProperty('--pattern-bg', p.bg);
+      groupEl.style.setProperty('--pattern-border', p.border);
+
+      const subCount = p.children.length;
+      groupEl.innerHTML = `
+        <div class="group-section-header" onclick="toggleGroupSection('${p.id}')">
+          <span class="group-section-tag">${p.name}</span>
+          <span class="group-section-title"></span>
+          <span class="group-section-count">${subCount} sub-pattern${subCount !== 1 ? 's' : ''} · ${groupTotalProbs} problem${groupTotalProbs !== 1 ? 's' : ''}</span>
+          <svg class="group-toggle-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 6 8 10 12 6"/>
+          </svg>
+        </div>
+        <div class="group-children-sections"></div>`;
+
+      const childrenSections = groupEl.querySelector('.group-children-sections');
+      p.children.forEach(child => {
+        const sec = buildSection(child);
+        childrenSections.appendChild(sec);
+      });
+      content.appendChild(groupEl);
+
+    } else {
+      // ── REGULAR: sidebar ──
+      const nav = document.createElement('div');
+      nav.className = 'nav-item' + (idx === 0 ? ' active' : '');
+      nav.style.setProperty('--pattern-color', p.color);
+      nav.innerHTML = `
+        <span class="nav-dot" style="background:${p.color}"></span>
+        <span class="nav-label">${p.name}</span>
+        <span class="nav-count">${p.problems.length}</span>`;
+      nav.addEventListener('click', () => {
+        setActiveNav(nav);
+        scrollToSection(p.id);
+        if (window.innerWidth <= 768) toggleMenu(false);
+      });
+      navList.appendChild(nav);
+
+      // ── REGULAR: main content ──
+      const section = buildSection(p);
+      content.appendChild(section);
+    }
+  });
+
+  setupObserver();
+}
+
+/* ═══════════════════════════════════════════
+   NAV ACTIVE STATE
+═══════════════════════════════════════════ */
+function setActiveNav(navEl) {
+  document.querySelectorAll('.nav-item, .nav-group-header').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════
+   GROUP TOGGLE  (sidebar + main)  (Change #2)
+═══════════════════════════════════════════ */
+function handleGroupHeaderClick(groupId, navGroupEl) {
+  navGroupEl.classList.toggle('collapsed');
+  // If expanding, scroll to the group section
+  if (!navGroupEl.classList.contains('collapsed')) {
+    scrollToSection(groupId);
+  }
+}
+
+function toggleGroupSection(groupId) {
+  const groupEl = document.getElementById(groupId);
+  if (groupEl) groupEl.classList.toggle('collapsed');
+  // Also sync sidebar
+  const navGroup = document.querySelector(`.nav-group[data-group-id="${groupId}"]`);
+  if (navGroup) navGroup.classList.toggle('collapsed');
+}
+
+/* ═══════════════════════════════════════════
+   INTERSECTION OBSERVER (active nav sync)
+═══════════════════════════════════════════ */
+function setupObserver() {
+  const mainEl = document.getElementById('main-content');
+  const sections = document.querySelectorAll('.pattern-section, .pattern-group');
+  if (!sections.length) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        // Try to find a direct nav-item with matching id, else a group header
+        const directNav = document.querySelector(`.nav-item[data-section="${id}"]`);
+        if (directNav) {
+          setActiveNav(directNav);
+        }
+      }
+    });
+  }, { root: mainEl, threshold: 0.15 });
+
+  sections.forEach(s => obs.observe(s));
+
+  // Also use a scroll-based approach for more reliable active highlighting
+  mainEl.addEventListener('scroll', onMainScroll, { passive: true });
+}
+
+function onMainScroll() {
+  const mainEl = document.getElementById('main-content');
+  const mainRect = mainEl.getBoundingClientRect();
+  const sections = document.querySelectorAll('#content .pattern-section, #content .pattern-group');
+  let topmost = null;
+  let topmostDist = Infinity;
+
+  sections.forEach(s => {
+    const r = s.getBoundingClientRect();
+    const dist = Math.abs(r.top - mainRect.top);
+    if (r.top <= mainRect.top + mainRect.height * 0.4 && dist < topmostDist) {
+      topmostDist = dist;
+      topmost = s;
+    }
+  });
+
+  if (!topmost) return;
+  const id = topmost.id;
+
+  // Find corresponding nav item
+  let navEl =
+    document.querySelector(`.nav-item[data-section-id="${id}"]`) ||
+    document.querySelector(`.nav-group-header[data-group-id="${id}"]`);
+
+  if (!navEl) {
+    // Check if it's a child of a group
+    document.querySelectorAll('.nav-item.child').forEach(child => {
+      if (child.dataset.childId === id) navEl = child;
+    });
+  }
+  if (navEl) setActiveNav(navEl);
+}
+
+/* ═══════════════════════════════════════════
+   SHUFFLE  (Change #3)
+═══════════════════════════════════════════ */
+let currentToastProblem = null;
+let toastTimer = null;
+
+function shuffleProblem() {
+  const all = getAllProblems();
+  if (!all.length) return;
+
+  const pick = all[Math.floor(Math.random() * all.length)];
+  currentToastProblem = pick;
+  showToast(pick);
+}
+
+function showToast(prob) {
+  const toast     = document.getElementById('shuffle-toast');
+  const titleEl   = document.getElementById('toast-title');
+  const pillEl    = document.getElementById('toast-pill');
+  const lcEl      = document.getElementById('toast-lc');
+  const solveBtn  = document.getElementById('toast-solve');
+
+  titleEl.textContent = prob.title;
+  pillEl.textContent  = prob.patternName;
+  pillEl.style.color       = prob.patternColor;
+  pillEl.style.background  = prob.patternBg;
+  pillEl.style.borderColor = prob.patternBorder;
+  lcEl.textContent    = prob.lc ? `LC #${prob.lc}` : platformLabel[prob.platform];
+  solveBtn.href       = prob.url;
+
+  toast.classList.add('visible');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(closeToast, 8000);
+}
+
+function closeToast() {
+  document.getElementById('shuffle-toast').classList.remove('visible');
+  if (toastTimer) { clearTimeout(toastTimer); toastTimer = null; }
+}
+
+function jumpToToastProblem() {
+  if (!currentToastProblem) return;
+  closeToast();
+
+  // Expand group if needed
+  const groupParent = patterns.find(p => p.isGroup && p.children.some(c => c.id === currentToastProblem.patternId));
+  if (groupParent) {
+    const groupEl = document.getElementById(groupParent.id);
+    if (groupEl && groupEl.classList.contains('collapsed')) {
+      groupEl.classList.remove('collapsed');
+    }
+    const navGroup = document.querySelector(`.nav-group[data-group-id="${groupParent.id}"]`);
+    if (navGroup && navGroup.classList.contains('collapsed')) {
+      navGroup.classList.remove('collapsed');
+    }
+  }
+
+  setTimeout(() => {
+    scrollToSection(currentToastProblem.patternId);
+    // Also highlight the specific row
+    highlightProblemRow(currentToastProblem);
+  }, 120);
+}
+
+function highlightProblemRow(prob) {
+  // Find the section and the row matching the problem title
+  const section = document.getElementById(prob.patternId);
+  if (!section) return;
+  section.querySelectorAll('.problem-row').forEach(row => {
+    const rowTitle = row.querySelector('.row-title');
+    if (rowTitle && rowTitle.textContent.trim().includes(prob.title.trim())) {
+      row.classList.add('highlighted');
+      setTimeout(() => row.classList.remove('highlighted'), 2200);
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════ */
+function handleSearch() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  if (!q) { renderAll(patterns); return; }
+
+  const filtered = [];
+  patterns.forEach(p => {
+    if (p.isGroup) {
+      const matchedChildren = p.children
+        .map(child => ({
+          ...child,
+          problems: child.problems.filter(pr =>
+            pr.title.toLowerCase().includes(q) ||
+            child.name.toLowerCase().includes(q) ||
+            p.name.toLowerCase().includes(q) ||
+            (pr.lc && String(pr.lc).includes(q))
+          )
+        }))
+        .filter(c => c.problems.length > 0);
+      if (matchedChildren.length > 0) {
+        filtered.push({ ...p, children: matchedChildren });
+      }
+    } else {
+      const matchedProblems = p.problems.filter(pr =>
+        pr.title.toLowerCase().includes(q) ||
+        p.name.toLowerCase().includes(q) ||
+        (pr.lc && String(pr.lc).includes(q))
+      );
+      if (matchedProblems.length > 0) {
+        filtered.push({ ...p, problems: matchedProblems });
+      }
+    }
+  });
+  renderAll(filtered);
+}
+
+/* ═══════════════════════════════════════════
+   MENU TOGGLE (mobile)
+═══════════════════════════════════════════ */
+function toggleMenu(force) {
+  const s = document.getElementById('sidebar');
+  const open = typeof force === 'boolean' ? force : !s.classList.contains('open');
+  s.classList.toggle('open', open);
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+renderAll(patterns);
+</script>
+</body>
+</html>
