@@ -8,18 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f6f3;
-    --surface: #ffffff;
-    --border: #d4d0c7;
-    --border-strong: #b8b4aa;
-    --text-primary: #1a1916;
-    --text-secondary: #6b6760;
-    --text-muted: #a09c95;
-    --sidebar-bg: #1e1d1b;
-    --sidebar-text: #c8c4bc;
-    --sidebar-muted: #6b6760;
-    --sidebar-hover: #2a2926;
-    --sidebar-active: #333129;
+    --bg: #161616;
+    --surface: #1e1e1e;
+    --border: #333333;
+    --border-strong: #484848;
+    --text-primary: #f0f0f0;
+    --text-secondary: #a8a8a8;
+    --text-muted: #6f6f6f;
+    --sidebar-bg: #111111;
+    --sidebar-text: #c6c6c6;
+    --sidebar-muted: #606060;
+    --sidebar-hover: #1a1a1a;
+    --sidebar-active: #222222;
 
     --tp: #6c5fc7; --tp-bg: #f0effe; --tp-border: #d8d4f8;
     --hm: #1a8a6b; --hm-bg: #e8f7f2; --hm-border: #b8e8d8;
@@ -54,7 +54,7 @@
     align-items: center;
     padding: 0 24px;
     gap: 12px;
-    border-bottom: 1px solid #2e2d2a;
+    border-bottom: 1px solid #222222;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -64,7 +64,7 @@
     font-family: 'Fraunces', serif;
     font-size: 17px;
     font-weight: 300;
-    color: #f0ede8;
+    color: #f0f0f0;
     letter-spacing: 0.01em;
   }
   .topbar-title em {
@@ -75,11 +75,11 @@
   .topbar-count {
     font-family: 'DM Mono', monospace;
     font-size: 13px;
-    color: #a8a49d;
+    color: #777777;
     letter-spacing: 0.02em;
   }
   .topbar-count span {
-    color: #e8e4de;
+    color: #e8e8e8;
     font-weight: 600;
     font-size: 14px;
   }
@@ -89,10 +89,10 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    background: #252422;
-    border: 1px solid #3a3835;
+    background: #1c1c1c;
+    border: 1px solid #333333;
     border-radius: 6px;
-    color: #c8c4bc;
+    color: #bbbbbb;
     font-family: 'DM Sans', sans-serif;
     font-size: 12.5px;
     font-weight: 500;
@@ -103,9 +103,9 @@
     letter-spacing: 0.01em;
   }
   .shuffle-btn:hover {
-    background: #333129;
-    border-color: #555250;
-    color: #f0ede8;
+    background: #282828;
+    border-color: #484848;
+    color: #f0f0f0;
   }
   .shuffle-btn:active { transform: scale(0.97); }
   .shuffle-btn svg { flex-shrink: 0; }
@@ -113,31 +113,32 @@
   /* ── Shuffle Toast ── */
   .shuffle-toast {
     position: fixed;
-    bottom: 28px;
-    right: 28px;
-    background: #252422;
-    border: 1px solid #3a3835;
+    top: 62px;
+    right: 20px;
+    background: #141414;
+    border: 1px solid #2a2a2a;
     border-radius: 12px;
-    padding: 16px 20px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
     box-shadow: 0 12px 40px rgba(0,0,0,0.4);
     z-index: 500;
-    transform: translateY(12px) scale(0.97);
+    transform: translateY(-18px) translateX(12px) scale(0.95);
+    transform-origin: top right;
     opacity: 0;
     pointer-events: none;
-    transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.2s ease;
-    min-width: 290px;
-    max-width: 380px;
+    transition: transform 0.32s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.18s ease;
+    min-width: 280px;
+    max-width: 280px;
   }
   .shuffle-toast.visible {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) translateX(0) scale(1);
     opacity: 1;
     pointer-events: all;
   }
   .toast-eyebrow {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -146,19 +147,19 @@
     align-items: center;
     gap: 6px;
   }
-  .toast-dice { font-size: 13px; }
+  .toast-dice { font-size: 11px; }
   .toast-title {
-    font-size: 14.5px;
+    font-size: 13px;
     font-weight: 500;
-    color: #f0ede8;
-    line-height: 1.35;
-    margin-top: 2px;
+    color: #efefef;
+    line-height: 1.3;
+    margin-top: 1px;
   }
   .toast-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 4px;
+    gap: 6px;
+    margin-top: 3px;
     flex-wrap: wrap;
   }
   .toast-pattern-pill {
@@ -178,15 +179,15 @@
   .toast-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 10px;
+    gap: 6px;
+    margin-top: 8px;
   }
   .toast-solve-btn {
     font-family: 'DM Sans', sans-serif;
-    font-size: 12.5px;
+    font-size: 11.5px;
     font-weight: 600;
-    padding: 6px 16px;
-    border-radius: 6px;
+    padding: 5px 12px;
+    border-radius: 5px;
     border: none;
     background: #9d8fef;
     color: white;
@@ -195,28 +196,28 @@
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
   }
   .toast-solve-btn:hover { background: #8b7de0; }
   .toast-jump-btn {
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: 1px solid #3a3835;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #2a2a2a;
     background: none;
     color: var(--sidebar-text);
     cursor: pointer;
     transition: background 0.15s;
   }
-  .toast-jump-btn:hover { background: #2a2926; }
+  .toast-jump-btn:hover { background: #1e1e1e; }
   .toast-close {
     position: absolute;
     top: 12px;
     right: 14px;
     background: none;
     border: none;
-    color: var(--sidebar-muted);
+    color: #555555;
     cursor: pointer;
     font-size: 16px;
     line-height: 1;
@@ -224,7 +225,7 @@
     border-radius: 4px;
     transition: color 0.15s;
   }
-  .toast-close:hover { color: #c8c4bc; }
+  .toast-close:hover { color: #aaaaaa; }
 
   /* ── Layout ── */
   .layout {
@@ -238,7 +239,7 @@
     width: 224px;
     flex-shrink: 0;
     background: var(--sidebar-bg);
-    border-right: 1px solid #2e2d2a;
+    border-right: 1px solid #202020;
     position: sticky;
     top: 52px;
     height: calc(100vh - 52px);
@@ -247,7 +248,7 @@
   }
   .sidebar::-webkit-scrollbar { width: 4px; }
   .sidebar::-webkit-scrollbar-track { background: transparent; }
-  .sidebar::-webkit-scrollbar-thumb { background: #3a3835; border-radius: 2px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #2e2e2e; border-radius: 2px; }
 
   .sidebar-section-label {
     font-size: 10px;
@@ -287,16 +288,16 @@
     flex: 1;
     font-weight: 400;
   }
-  .nav-item.active .nav-label { color: #f0ede8; font-weight: 500; }
+  .nav-item.active .nav-label { color: #f0f0f0; font-weight: 500; }
   .nav-count {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--sidebar-muted);
-    background: #2a2926;
+    background: #1a1a1a;
     padding: 1px 6px;
     border-radius: 10px;
   }
-  .nav-item.active .nav-count { background: #3a3835; color: #a09c95; }
+  .nav-item.active .nav-count { background: #2a2a2a; color: #888888; }
 
   /* ── Sidebar Group ── */
   .nav-group {}
@@ -328,7 +329,7 @@
     flex: 1;
     font-weight: 400;
   }
-  .nav-group-header.active .nav-group-label { color: #f0ede8; font-weight: 500; }
+  .nav-group-header.active .nav-group-label { color: #f0f0f0; font-weight: 500; }
   .nav-group-arrow {
     width: 14px;
     height: 14px;
@@ -340,7 +341,7 @@
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--sidebar-muted);
-    background: #2a2926;
+    background: #1a1a1a;
     padding: 1px 6px;
     border-radius: 10px;
   }
@@ -381,32 +382,23 @@
   /* ── Unified section glow ── */
   @keyframes sectionTagGlow {
     0%          { color: var(--pattern-color); background: var(--pattern-bg); box-shadow: none; }
-    20%, 70%    { color: #fff; background: var(--pattern-color);
-                  box-shadow: 0 0 0 3px var(--pattern-border), 0 0 22px 4px var(--pattern-border); }
+    20%, 70%    { color: var(--pattern-color); background: var(--pattern-bg);
+                  box-shadow: 0 0 0 2px var(--pattern-border); }
     100%        { color: var(--pattern-color); background: var(--pattern-bg); box-shadow: none; }
-  }
-  @keyframes sectionRowGlow {
-    0%          { color: var(--text-primary); text-shadow: none; }
-    20%, 70%    { color: var(--pattern-color);
-                  text-shadow: 0 0 12px var(--pattern-border), 0 0 4px var(--pattern-border); }
-    100%        { color: var(--text-primary); text-shadow: none; }
   }
   @keyframes sectionTableGlow {
     0%          { box-shadow: none; border-color: var(--border); }
-    20%, 70%    { box-shadow: 0 0 0 3px var(--pattern-border), 0 0 28px 6px var(--pattern-border);
-                  border-color: var(--pattern-color); }
+    20%, 70%    { box-shadow: 0 0 0 2px var(--pattern-border);
+                  border-color: var(--pattern-border); }
     100%        { box-shadow: none; border-color: var(--border); }
   }
 
   /* All three target together, same duration, same keyframe shape */
   .pattern-section.section-glowing .section-tag {
-    animation: sectionTagGlow 2.2s ease;
-  }
-  .pattern-section.section-glowing .row-title {
-    animation: sectionRowGlow 2.2s ease;
+    animation: sectionTagGlow 1s ease;
   }
   .pattern-section.section-glowing .problem-table {
-    animation: sectionTableGlow 2.2s ease;
+    animation: sectionTableGlow 1s ease;
   }
 
   .section-header {
@@ -441,24 +433,20 @@
     color: var(--text-muted);
   }
 
-  /* ── Array Patterns group in main ── */
+  /* ── Array Patterns group in main (Tabbed Panel) ── */
   .pattern-group {
     margin-bottom: 44px;
-  }
-  .pattern-group > .pattern-section {
-    margin-bottom: 0;
+    scroll-margin-top: 72px;
   }
   .group-section-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 13px;
-    border-bottom: 2px solid var(--pattern-border, var(--border));
-    cursor: pointer;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
     user-select: none;
   }
-  .group-section-header:hover .group-section-title { color: var(--pattern-color); }
   .group-section-tag {
     font-size: 11px;
     font-weight: 700;
@@ -476,44 +464,74 @@
     font-weight: 300;
     color: var(--text-primary);
     flex: 1;
-    transition: color 0.15s;
   }
   .group-section-count {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
     color: var(--text-muted);
-    background: var(--pattern-bg);
-    border: 1px solid var(--pattern-border);
-    padding: 2px 9px;
-    border-radius: 10px;
+    padding: 2px 0;
   }
-  .group-toggle-arrow {
-    width: 16px;
-    height: 16px;
-    color: var(--text-muted);
-    transition: transform 0.22s;
-    flex-shrink: 0;
-  }
-  .pattern-group.collapsed .group-toggle-arrow { transform: rotate(-90deg); }
-  .group-children-sections {
-    padding-left: 22px;
-    border-left: 2px solid var(--pattern-border);
+
+  /* ── Tab bar ── */
+  .tab-bar {
     display: flex;
-    flex-direction: column;
-    gap: 32px;
-    overflow: hidden;
-    max-height: 2000px;
-    transition: max-height 0.3s ease, opacity 0.25s;
-    opacity: 1;
+    gap: 2px;
+    border-bottom: 2px solid var(--pattern-border, var(--border));
+    margin-top: 14px;
+    margin-bottom: 20px;
   }
-  .pattern-group.collapsed .group-children-sections {
-    max-height: 0;
-    opacity: 0;
-    pointer-events: none;
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 8px 15px;
+    border: 1.5px solid transparent;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    position: relative;
+    bottom: -2px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
   }
-  .group-children-sections .pattern-section {
-    margin-bottom: 0;
+  .tab-btn:hover {
+    background: #2a2a2a;
+    color: var(--child-color, var(--pattern-color));
   }
+  .tab-btn.active {
+    background: var(--surface);
+    color: var(--child-color, var(--pattern-color));
+    border-color: var(--child-border, var(--pattern-border));
+    border-bottom-color: var(--surface);
+    font-weight: 600;
+  }
+  .tab-btn-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--child-color, var(--pattern-color));
+    opacity: 0.45;
+    transition: opacity 0.15s;
+  }
+  .tab-btn.active .tab-btn-dot { opacity: 1; }
+  .tab-btn-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    opacity: 0.55;
+    transition: opacity 0.15s;
+  }
+  .tab-btn.active .tab-btn-count { opacity: 0.9; }
+
+  /* ── Tab panels ── */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .tab-panel .pattern-section { margin-bottom: 0; scroll-margin-top: 0; }
 
   /* ── Problem table ── */
   .problem-table {
@@ -535,14 +553,14 @@
     transition: background 0.12s;
   }
   .problem-row:last-child { border-bottom: none; }
-  .problem-row:hover { background: #faf9f7; }
+  .problem-row:hover { background: #272727; }
   .problem-row.highlighted {
-    background: #fefdf7;
-    animation: rowHighlight 2s ease;
+    background: #272727;
+    animation: rowHighlight 1s ease;
   }
   @keyframes rowHighlight {
     0%, 100% { background: transparent; }
-    20%, 70% { background: #fefdf0; }
+    20%, 70% { background: #2e2e2e; }
   }
 
   .row-num {
@@ -592,9 +610,9 @@
     border-radius: 4px;
     text-transform: uppercase;
   }
-  .badge-lc  { background: #fff8ee; color: #b85c00; border: 1px solid #fad9a0; }
-  .badge-gfg { background: #edfaf3; color: #1a7a4a; border: 1px solid #a8e8c4; }
-  .badge-cn  { background: #edf4ff; color: #1a52a8; border: 1px solid #a8c8f8; }
+  .badge-lc  { background: #2a2a2a; color: #888888; border: 1px solid #3a3a3a; }
+  .badge-gfg { background: #2a2a2a; color: #888888; border: 1px solid #3a3a3a; }
+  .badge-cn  { background: #2a2a2a; color: #888888; border: 1px solid #3a3a3a; }
 
   /* ── Search ── */
   .search-wrap {
@@ -615,8 +633,8 @@
     transition: border-color 0.15s, box-shadow 0.15s;
   }
   .search-input:focus {
-    border-color: #9d8fef;
-    box-shadow: 0 0 0 3px rgba(157,143,239,0.12);
+    border-color: #555555;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
   }
   .search-input::placeholder { color: var(--text-muted); }
   .search-icon {
@@ -652,7 +670,7 @@
     .topbar { padding: 0 16px; }
     .menu-btn { display: flex !important; }
     .shuffle-btn span { display: none; }
-    .shuffle-toast { right: 16px; bottom: 16px; left: 16px; min-width: unset; }
+    .shuffle-toast { top: 62px; right: 12px; left: 12px; min-width: unset; }
   }
   @media (min-width: 769px) {
     .menu-btn { display: none !important; }
@@ -660,7 +678,7 @@
 
   .menu-btn {
     background: none;
-    border: 1px solid #3a3835;
+    border: 1px solid #2a2a2a;
     border-radius: 6px;
     color: var(--sidebar-text);
     width: 32px;
@@ -886,26 +904,38 @@ function buildSection(p) {
 }
 
 /* ═══════════════════════════════════════════
-   SCROLL & GLOW  (Change #1)
+   SCROLL & GLOW
 ═══════════════════════════════════════════ */
+function glowSection(section) {
+  if (!section) return;
+  section.classList.remove('section-glowing');
+  void section.offsetWidth;
+  section.classList.add('section-glowing');
+  setTimeout(() => section.classList.remove('section-glowing'), 1100);
+}
+
 function scrollToSection(sectionId) {
+  // Check if this ID belongs to a child inside a tabbed group
+  const parentGroup = patterns.find(p => p.isGroup && p.children.some(c => c.id === sectionId));
+  if (parentGroup) {
+    // Switch to the correct tab first
+    switchTab(parentGroup.id, sectionId);
+    // Scroll to the group container
+    const groupEl = document.getElementById(parentGroup.id);
+    if (groupEl) groupEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Glow the section after a brief paint delay
+    setTimeout(() => glowSection(document.getElementById(sectionId)), 180);
+    return;
+  }
+
   const section = document.getElementById(sectionId);
   if (!section) return;
-
-  // scrollIntoView auto-finds the real scroll container — works regardless of layout
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  // Glow immediately on click — no delay
   const targets = section.matches('.pattern-section')
     ? [section]
     : [...section.querySelectorAll('.pattern-section')];
-
-  targets.forEach(sec => {
-    sec.classList.remove('section-glowing');
-    void sec.offsetWidth; // force reflow so animation restarts cleanly
-    sec.classList.add('section-glowing');
-    setTimeout(() => sec.classList.remove('section-glowing'), 2200);
-  });
+  targets.forEach(sec => glowSection(sec));
 }
 
 /* ═══════════════════════════════════════════
@@ -929,18 +959,15 @@ function renderAll(data) {
 
   data.forEach((p, idx) => {
     if (p.isGroup) {
-      // ── GROUP: sidebar ──
+      // ── GROUP: sidebar (always expanded, children always visible) ──
       const groupTotalProbs = p.children.reduce((s, c) => s + c.problems.length, 0);
       const navGroup = document.createElement('div');
-      navGroup.className = 'nav-group collapsed'; // starts collapsed
+      navGroup.className = 'nav-group';
       navGroup.dataset.groupId = p.id;
       navGroup.innerHTML = `
-        <div class="nav-group-header" style="--pattern-color:${p.color}" onclick="handleGroupHeaderClick('${p.id}', this.parentElement)">
+        <div class="nav-group-header" style="--pattern-color:${p.color}">
           <span class="nav-group-icon" style="background:${p.color}; border-radius:2px;"></span>
           <span class="nav-group-label">${p.name}</span>
-          <svg class="nav-group-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="4 6 8 10 12 6"/>
-          </svg>
           <span class="nav-group-total">${groupTotalProbs}</span>
         </div>
         <div class="nav-group-children"></div>`;
@@ -948,7 +975,7 @@ function renderAll(data) {
       const childrenNav = navGroup.querySelector('.nav-group-children');
       p.children.forEach((child, ci) => {
         const childNav = document.createElement('div');
-        childNav.className = 'nav-item child' + (idx === 0 && ci === 0 ? ' active' : '');
+        childNav.className = 'nav-item child';
         childNav.style.setProperty('--pattern-color', child.color);
         childNav.innerHTML = `
           <span class="nav-dot" style="background:${child.color}"></span>
@@ -956,44 +983,67 @@ function renderAll(data) {
           <span class="nav-count">${child.problems.length}</span>`;
         childNav.addEventListener('click', () => {
           setActiveNav(childNav);
-          // Expand the group in sidebar and main if collapsed
-          if (navGroup.classList.contains('collapsed')) {
-            navGroup.classList.remove('collapsed');
-            const groupEl = document.getElementById(p.id);
-            if (groupEl) groupEl.classList.remove('collapsed');
-          }
-          scrollToSection(child.id);
+          scrollToSection(child.id); // switchTab + scroll + glow handled inside
           if (window.innerWidth <= 768) toggleMenu(false);
         });
         childrenNav.appendChild(childNav);
       });
       navList.appendChild(navGroup);
 
-      // ── GROUP: main content ──
+      // ── GROUP: main content — tabbed panel ──
       const groupEl = document.createElement('div');
-      groupEl.className = 'pattern-group collapsed';
+      groupEl.className = 'pattern-group';
       groupEl.id = p.id;
       groupEl.style.setProperty('--pattern-color', p.color);
       groupEl.style.setProperty('--pattern-bg', p.bg);
       groupEl.style.setProperty('--pattern-border', p.border);
 
       const subCount = p.children.length;
-      groupEl.innerHTML = `
-        <div class="group-section-header" onclick="toggleGroupSection('${p.id}')">
-          <span class="group-section-tag">${p.name}</span>
-          <span class="group-section-title"></span>
-          <span class="group-section-count">${subCount} sub-pattern${subCount !== 1 ? 's' : ''} · ${groupTotalProbs} problem${groupTotalProbs !== 1 ? 's' : ''}</span>
-          <svg class="group-toggle-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="4 6 8 10 12 6"/>
-          </svg>
-        </div>
-        <div class="group-children-sections"></div>`;
 
-      const childrenSections = groupEl.querySelector('.group-children-sections');
-      p.children.forEach(child => {
+      // Header row
+      const header = document.createElement('div');
+      header.className = 'group-section-header';
+      header.innerHTML = `
+        <span class="group-section-tag">${p.name}</span>
+        <span class="group-section-count">${subCount} sub-pattern${subCount !== 1 ? 's' : ''} · ${groupTotalProbs} problem${groupTotalProbs !== 1 ? 's' : ''}</span>`;
+      groupEl.appendChild(header);
+
+      // Tab bar
+      const tabBar = document.createElement('div');
+      tabBar.className = 'tab-bar';
+
+      // Tab panels container
+      const tabPanels = document.createElement('div');
+      tabPanels.className = 'tab-panels';
+
+      p.children.forEach((child, ci) => {
+        // Tab button
+        const btn = document.createElement('button');
+        btn.className = 'tab-btn' + (ci === 0 ? ' active' : '');
+        btn.dataset.childId = child.id;
+        btn.style.setProperty('--child-color', child.color);
+        btn.style.setProperty('--child-bg', child.bg);
+        btn.style.setProperty('--child-border', child.border);
+        btn.innerHTML = `
+          <span class="tab-btn-dot"></span>
+          ${child.name}
+          <span class="tab-btn-count">${child.problems.length}</span>`;
+        btn.addEventListener('click', () => switchTab(p.id, child.id));
+        tabBar.appendChild(btn);
+
+        // Tab panel
+        const panel = document.createElement('div');
+        panel.className = 'tab-panel' + (ci === 0 ? ' active' : '');
+        panel.dataset.childId = child.id;
         const sec = buildSection(child);
-        childrenSections.appendChild(sec);
+        const secHeader = sec.querySelector('.section-header');
+        if (secHeader) secHeader.remove();
+        panel.appendChild(sec);
+        tabPanels.appendChild(panel);
       });
+
+      groupEl.appendChild(tabBar);
+      groupEl.appendChild(tabPanels);
       content.appendChild(groupEl);
 
     } else {
@@ -1030,22 +1080,33 @@ function setActiveNav(navEl) {
 }
 
 /* ═══════════════════════════════════════════
-   GROUP TOGGLE  (sidebar + main)  (Change #2)
+   TAB SWITCHING
 ═══════════════════════════════════════════ */
-function handleGroupHeaderClick(groupId, navGroupEl) {
-  navGroupEl.classList.toggle('collapsed');
-  // If expanding, scroll to the group section
-  if (!navGroupEl.classList.contains('collapsed')) {
-    scrollToSection(groupId);
-  }
-}
-
-function toggleGroupSection(groupId) {
+function switchTab(groupId, childId) {
   const groupEl = document.getElementById(groupId);
-  if (groupEl) groupEl.classList.toggle('collapsed');
-  // Also sync sidebar
+  if (!groupEl) return;
+
+  // Update tab buttons
+  groupEl.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.childId === childId);
+  });
+
+  // Update tab panels
+  groupEl.querySelectorAll('.tab-panel').forEach(panel => {
+    panel.classList.toggle('active', panel.dataset.childId === childId);
+  });
+
+  // Sync sidebar child nav active state
   const navGroup = document.querySelector(`.nav-group[data-group-id="${groupId}"]`);
-  if (navGroup) navGroup.classList.toggle('collapsed');
+  if (navGroup) {
+    navGroup.querySelectorAll('.nav-item.child').forEach(item => {
+      const label = item.querySelector('.nav-label')?.textContent;
+      const parentGroup = patterns.find(pg => pg.id === groupId);
+      const child = parentGroup?.children.find(c => c.id === childId);
+      if (child && label === child.name) item.classList.add('active');
+      else item.classList.remove('active');
+    });
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -1152,22 +1213,8 @@ function jumpToToastProblem() {
   if (!currentToastProblem) return;
   closeToast();
 
-  // Expand group if needed
-  const groupParent = patterns.find(p => p.isGroup && p.children.some(c => c.id === currentToastProblem.patternId));
-  if (groupParent) {
-    const groupEl = document.getElementById(groupParent.id);
-    if (groupEl && groupEl.classList.contains('collapsed')) {
-      groupEl.classList.remove('collapsed');
-    }
-    const navGroup = document.querySelector(`.nav-group[data-group-id="${groupParent.id}"]`);
-    if (navGroup && navGroup.classList.contains('collapsed')) {
-      navGroup.classList.remove('collapsed');
-    }
-  }
-
   setTimeout(() => {
     scrollToSection(currentToastProblem.patternId);
-    // Also highlight the specific row
     highlightProblemRow(currentToastProblem);
   }, 120);
 }
@@ -1180,7 +1227,7 @@ function highlightProblemRow(prob) {
     const rowTitle = row.querySelector('.row-title');
     if (rowTitle && rowTitle.textContent.trim().includes(prob.title.trim())) {
       row.classList.add('highlighted');
-      setTimeout(() => row.classList.remove('highlighted'), 2200);
+      setTimeout(() => row.classList.remove('highlighted'), 1200);
     }
   });
 }
