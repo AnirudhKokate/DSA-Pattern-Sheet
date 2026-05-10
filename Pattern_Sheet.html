@@ -757,85 +757,165 @@
 ═══════════════════════════════════════════ */
 const patterns = [
   {
-    id: 'basics',
-    name: 'Basics',
-    color: '#5a5855', bg: '#f3f2ef', border: '#d8d5cc',
-    problems: [
-      { title: 'Valid Triangle', lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/valid-triangle5248/1' },
-    ]
-  },
-  {
-    id: 'two-pointers',
-    name: 'Two Pointers',
-    color: '#6c5fc7', bg: '#f0effe', border: '#d8d4f8',
-    problems: [
-      { title: 'Remove Duplicates from Sorted Array', lc: 26,   platform: 'lc',  url: 'https://leetcode.com/problems/remove-duplicates-from-sorted-array/' },
-      { title: 'Rotate Array',                         lc: 189,  platform: 'lc',  url: 'https://leetcode.com/problems/rotate-array/' },
-      { title: 'Move Zeroes',                          lc: 283,  platform: 'lc',  url: 'https://leetcode.com/problems/move-zeroes/' },
-      { title: 'Union of Two Sorted Arrays',           lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1' },
-      { title: 'Sort Colors',                          lc: 75,   platform: 'lc',  url: 'https://leetcode.com/problems/sort-colors/' },
-    ]
-  },
-  {
-    id: 'hashmap',
-    name: 'Hashmap',
-    color: '#1a8a6b', bg: '#e8f7f2', border: '#b8e8d8',
-    problems: [
-      { title: 'Two Sum', lc: 1, platform: 'lc', url: 'https://leetcode.com/problems/two-sum/' },
-    ]
-  },
-  {
-    id: 'sliding-window',
-    name: 'Sliding Window',
-    color: '#c47d1a', bg: '#fdf3e3', border: '#f5d89a',
-    problems: [
-      { title: 'Longest Subarray with Sum K (arr[i] ≥ 0)', lc: null, platform: 'cn', url: 'https://www.naukri.com/code360/problems/longest-subarray-with-sum-k_6682399' },
-    ]
-  },
-  // ── Array Patterns group ──
-  {
-    id: 'array-patterns',
-    name: 'Array Patterns',
-    isGroup: true,
-    color: '#7c5c1e',
-    bg: '#fdf6e7',
-    border: '#f0d49a',
-    children: [
+    "id": "basics",
+    "name": "Basics",
+    "color": "#5a5855",
+    "bg": "#f3f2ef",
+    "border": "#d8d5cc",
+    "problems": [
       {
-        id: 'prefix-sum',
-        name: 'Prefix Sum',
-        color: '#b84c28', bg: '#fdf0eb', border: '#f5c4ad',
-        problems: [
-          { title: 'Longest Subarray with Sum K (integers)', lc: null, platform: 'gfg', url: 'https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1' },
+        "title": "Valid Triangle",
+        "lc": null,
+        "platform": "gfg",
+        "url": "https://www.geeksforgeeks.org/problems/valid-triangle5248/1"
+      }
+    ]
+  },
+  {
+    "id": "two-pointers",
+    "name": "Two Pointers",
+    "color": "#6c5fc7",
+    "bg": "#f0effe",
+    "border": "#d8d4f8",
+    "problems": [
+      {
+        "title": "Remove Duplicates from Sorted Array",
+        "lc": 26,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+      },
+      {
+        "title": "Rotate Array",
+        "lc": 189,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/rotate-array/"
+      },
+      {
+        "title": "Move Zeroes",
+        "lc": 283,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/move-zeroes/"
+      },
+      {
+        "title": "Union of Two Sorted Arrays",
+        "lc": null,
+        "platform": "gfg",
+        "url": "https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-1587115621/1"
+      },
+      {
+        "title": "Sort Colors",
+        "lc": 75,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/sort-colors/"
+      }
+    ]
+  },
+  {
+    "id": "hashmap",
+    "name": "Hashmap",
+    "color": "#1a8a6b",
+    "bg": "#e8f7f2",
+    "border": "#b8e8d8",
+    "problems": [
+      {
+        "title": "Two Sum",
+        "lc": 1,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/two-sum/"
+      }
+    ]
+  },
+  {
+    "id": "sliding-window",
+    "name": "Sliding Window",
+    "color": "#c47d1a",
+    "bg": "#fdf3e3",
+    "border": "#f5d89a",
+    "problems": [
+      {
+        "title": "Longest Subarray with Sum K (arr[i] ≥ 0)",
+        "lc": null,
+        "platform": "cn",
+        "url": "https://www.naukri.com/code360/problems/longest-subarray-with-sum-k_6682399"
+      }
+    ]
+  },
+  {
+    "id": "array-patterns",
+    "name": "Array Patterns",
+    "isGroup": true,
+    "color": "#7c5c1e",
+    "bg": "#fdf6e7",
+    "border": "#f0d49a",
+    "children": [
+      {
+        "id": "prefix-sum",
+        "name": "Prefix Sum",
+        "color": "#b84c28",
+        "bg": "#fdf0eb",
+        "border": "#f5c4ad",
+        "problems": [
+          {
+            "title": "Longest Subarray with Sum K (integers)",
+            "lc": null,
+            "platform": "gfg",
+            "url": "https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1"
+          }
         ]
       },
       {
-        id: 'moores-voting',
-        name: "Moore's Voting",
-        color: '#a83860', bg: '#fceef4', border: '#f2bdd3',
-        problems: [
-          { title: 'Majority Element', lc: 169, platform: 'lc', url: 'https://leetcode.com/problems/majority-element/' },
+        "id": "moores-voting",
+        "name": "Moore's Voting",
+        "color": "#a83860",
+        "bg": "#fceef4",
+        "border": "#f2bdd3",
+        "problems": [
+          {
+            "title": "Majority Element",
+            "lc": 169,
+            "platform": "lc",
+            "url": "https://leetcode.com/problems/majority-element/"
+          }
         ]
+      }
+    ]
+  },
+  {
+    "id": "math",
+    "name": "Math",
+    "color": "#437a1e",
+    "bg": "#edf6e2",
+    "border": "#bcdfa0",
+    "problems": [
+      {
+        "title": "Missing Number",
+        "lc": 268,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/missing-number/"
+      }
+    ]
+  },
+  {
+    "id": "bit-manipulation",
+    "name": "Bit Manipulation",
+    "color": "#2264b8",
+    "bg": "#eaf2fd",
+    "border": "#b5d4f5",
+    "problems": [
+      {
+        "title": "Missing Number",
+        "lc": 268,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/missing-number/"
       },
+      {
+        "title": "Single Number",
+        "lc": 136,
+        "platform": "lc",
+        "url": "https://leetcode.com/problems/single-number/"
+      }
     ]
-  },
-  {
-    id: 'math',
-    name: 'Math',
-    color: '#437a1e', bg: '#edf6e2', border: '#bcdfa0',
-    problems: [
-      { title: 'Missing Number', lc: 268, platform: 'lc', url: 'https://leetcode.com/problems/missing-number/' },
-    ]
-  },
-  {
-    id: 'bit-manipulation',
-    name: 'Bit Manipulation',
-    color: '#2264b8', bg: '#eaf2fd', border: '#b5d4f5',
-    problems: [
-      { title: 'Missing Number', lc: 268, platform: 'lc', url: 'https://leetcode.com/problems/missing-number/' },
-      { title: 'Single Number',  lc: 136, platform: 'lc', url: 'https://leetcode.com/problems/single-number/' },
-    ]
-  },
+  }
 ];
 
 const platformLabel = { lc: 'LC', gfg: 'GFG', cn: 'CN' };
@@ -932,6 +1012,13 @@ function scrollToSection(sectionId) {
   if (!section) return;
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
+  if (section.classList.contains('pattern-group')) {
+    setTimeout(() => {
+      const activePanel = section.querySelector('.tab-panel.active .pattern-section');
+      glowSection(activePanel);
+    }, 180);
+    return;
+  }
   const targets = section.matches('.pattern-section')
     ? [section]
     : [...section.querySelectorAll('.pattern-section')];
@@ -971,6 +1058,13 @@ function renderAll(data) {
           <span class="nav-group-total">${groupTotalProbs}</span>
         </div>
         <div class="nav-group-children"></div>`;
+
+      const groupHeader = navGroup.querySelector('.nav-group-header');
+      groupHeader.addEventListener('click', () => {
+        setActiveNav(groupHeader);
+        scrollToSection(p.id);
+        if (window.innerWidth <= 768) toggleMenu(false);
+      });
 
       const childrenNav = navGroup.querySelector('.nav-group-children');
       p.children.forEach((child, ci) => {
